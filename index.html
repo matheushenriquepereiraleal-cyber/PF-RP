@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>PF-RP | Sistema Interno</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#04080f;--bg2:#070d1a;--bg3:#0a1220;--panel:#080e1a;--border:#12203a;--border2:#1c3055;--gold:#c8a010;--gold2:#e0b818;--goldl:#f0d060;--text:#d8e4f2;--text2:#5878a8;--text3:#2e4870;--red:#a82018;--green:#106038;--blue:#0e3a98;--bronze:#b06818;--silver:#7888a0;--diamond:#48a8d0;--shadow:rgba(0,0,0,.7);--grad:linear-gradient(145deg,#d0a010 0%,#886808 50%,#c09010 100%);}
+body.light{
+--bg:#eef1f7;--bg2:#ffffff;--bg3:#e4e9f4;--panel:#f8faff;
+--border:#c8d3e8;--border2:#a8b8d8;
+--text:#0a1020;--text2:#3a5080;--text3:#7890b8;
+--shadow:rgba(0,0,0,.12);
+--grad:linear-gradient(145deg,#b8900a 0%,#7a5e06 50%,#a88010 100%);
+}
+body.light .login-card,
+body.light .modal,
+body.light .funcional,
+body.light .aviso-card,
+body.light .member-card,
+body.light .medal-user-card,
+body.light .equipe-card,
+body.light .cargo-card,
+body.light .crime-card,
+body.light .prisao-card,
+body.light .equipe-card{
+  background:var(--panel);border-color:var(--border);
+}
+body.light .topbar{
+  background:linear-gradient(180deg,#f0f4ff 0%,#e8eef8 100%);
+  border-bottom:2px solid var(--gold);
+}
+body.light .tabs-wrap{background:var(--bg2);}
+body.light .inp{background:var(--bg3);border-color:var(--border2);color:var(--text);}
+body.light .btn-ghost{border-color:var(--border2);color:var(--text2);}
+body.light #loginScreen{background:radial-gradient(ellipse at 30% 20%,#dce8f8 0%,#c8d8ee 75%);}
+body.light .login-card{background:#ffffff;border-color:var(--border2);}
+body.light .user-dd{background:var(--bg2);border-color:var(--gold);}
+body.light .tab-btn{color:var(--text2);}
+body.light .tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
+body.light .medal-table th{background:var(--bg3);}
+body.light .medal-table td{border-bottom-color:var(--border);}
+body.light .blacklist-table th{background:var(--bg3);}
+body.light .blacklist-table td{border-bottom-color:var(--border);}
+body.light .section-title{border-bottom-color:var(--border);}
+body.light .fc-divider{background:linear-gradient(90deg,var(--gold) 0%,transparent 100%);}
+body.light .funcional::before{color:rgba(0,0,0,.04);}
+body.light select.inp option{background:var(--bg2);color:var(--text);}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s;}
+::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+.title{font-family:'Oswald',sans-serif;}.mono{font-family:'Courier New',monospace;}
+.form-group{margin-bottom:16px;}.form-group label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-bottom:6px;font-weight:600;}
+.inp{width:100%;background:var(--bg3);border:1.5px solid var(--border);color:var(--text);padding:11px 14px;font-size:14px;font-family:inherit;border-radius:6px;outline:none;transition:border .2s,box-shadow .2s;}
+.inp:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,162,39,.12);}.inp.error{border-color:var(--red);}
+textarea.inp{resize:vertical;min-height:90px;}select.inp{cursor:pointer;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 20px;border:none;border-radius:6px;font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:2px;font-weight:600;cursor:pointer;transition:all .18s;text-transform:uppercase;position:relative;z-index:5;}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn-gold{background:linear-gradient(135deg,var(--gold2) 0%,var(--gold) 100%);color:#050810;border:1px solid var(--gold);position:relative;z-index:5;}.btn-gold:hover:not(:disabled){background:var(--gold2);transform:translateY(-1px);box-shadow:0 4px 12px rgba(201,162,39,.3);}
+.btn-red{background:var(--red);color:#fff;}.btn-red:hover:not(:disabled){background:#e74c3c;}
+.btn-green{background:var(--green);color:#fff;}.btn-green:hover:not(:disabled){background:#27ae60;}
+.btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--text2);}.btn-ghost:hover:not(:disabled){border-color:var(--gold);color:var(--gold2);}
+.btn-sm{padding:7px 14px;font-size:11px;}.btn-xs{padding:5px 10px;font-size:10px;letter-spacing:1px;}.btn-block{width:100%;}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:1.5px;font-weight:600;border:1px solid;}
+.badge-guarda{background:rgba(100,116,139,.18);border-color:#64748b;color:#94a3b8;}
+.badge-agente{background:rgba(59,130,246,.18);border-color:#3b82f6;color:#7cb4fb;}
+.badge-tatico{background:rgba(249,115,22,.18);border-color:#f97316;color:#fba163;}
+.badge-escrivao{background:rgba(139,92,246,.18);border-color:#8b5cf6;color:#b49cf8;}
+.badge-delegado{background:rgba(16,185,129,.18);border-color:#10b981;color:#4dd6a7;}
+.badge-comandante{background:rgba(201,162,39,.18);border-color:var(--gold);color:var(--gold2);}
+.badge-ativo{background:rgba(16,185,129,.15);border-color:#10b981;color:#4dd6a7;}
+.badge-inativo{background:rgba(239,68,68,.15);border-color:#ef4444;color:#f87171;}
+.badge-suspenso{background:rgba(245,158,11,.15);border-color:#f59e0b;color:#fbbf24;}
+.badge-aposentado{background:rgba(107,114,128,.15);border-color:#6b7280;color:#9ca3af;}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px;}.card-gold{border-top:3px solid var(--gold);}
+.shield-icon{width:48px;height:54px;background:var(--grad);clip-path:polygon(50% 0%,100% 18%,100% 65%,50% 100%,0% 65%,0% 18%);display:flex;align-items:center;justify-content:center;color:#0a0e1a;font-family:'Oswald',sans-serif;font-weight:700;}
+.shield-sm{width:32px;height:36px;}.shield-lg{width:64px;height:72px;font-size:18px;}
+
+/* LOGIN */
+#loginScreen{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 30% 20%,#081228 0%,#03060e 75%);}
+#loginScreen::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(10,30,80,.06) 2px,rgba(10,30,80,.06) 3px),radial-gradient(ellipse at 70% 80%,rgba(200,160,16,.04) 0%,transparent 60%);}
+.login-wrap{width:420px;max-width:95vw;animation:slideUp .5s cubic-bezier(.16,1,.3,1);position:relative;z-index:10;}
+.login-card{background:linear-gradient(160deg,var(--bg2) 0%,var(--bg3) 100%);border:1px solid var(--border2);border-top:3px solid var(--gold);border-radius:4px;padding:38px 38px 30px;box-shadow:0 32px 80px rgba(0,0,0,.85),0 0 60px rgba(200,160,16,.04);position:relative;z-index:1;}
+.login-logo{text-align:center;margin-bottom:30px;}
+.login-logo .shield-icon{margin:0 auto 12px;}.login-logo h1{font-family:'Oswald',sans-serif;font-size:24px;letter-spacing:5px;color:var(--gold2);}
+.login-logo p{font-size:10px;letter-spacing:3px;color:var(--text2);text-transform:uppercase;margin-top:3px;}
+.login-quote{margin-bottom:22px;padding:10px 14px;background:rgba(201,162,39,.07);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;font-size:12px;color:var(--text2);font-style:italic;}
+.autocomplete-wrap{position:relative;}
+.user-dd{position:absolute;top:calc(100% + 2px);left:0;right:0;z-index:300;background:var(--bg2);border:1px solid var(--gold);border-radius:4px;max-height:220px;overflow-y:auto;display:none;box-shadow:0 12px 32px rgba(0,0,0,.8);}
+.user-opt{padding:11px 14px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:space-between;gap:10px;transition:background .12s;border-bottom:1px solid var(--border);}
+.user-opt:last-child{border-bottom:none;}
+.user-opt .opt-name{font-family:'Oswald',sans-serif;font-size:14px;letter-spacing:1px;}
+.user-opt .opt-reg{font-size:10px;color:var(--text2);margin-top:2px;font-family:'Courier New',monospace;}
+.user-opt:hover{background:rgba(200,160,16,.12);}
+.login-tabs{display:flex;gap:0;margin-bottom:22px;background:var(--bg3);border-radius:8px;padding:3px;position:relative;z-index:5;}
+.login-tab{flex:1;padding:9px;text-align:center;cursor:pointer;font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:2px;color:var(--text2);border-radius:6px;transition:all .2s;position:relative;z-index:5;user-select:none;}
+.login-tab.active{background:var(--gold);color:#0a0e1a;font-weight:700;}
+.login-msg{margin-top:12px;font-size:13px;min-height:18px;text-align:center;}
+.login-msg.error{color:#e74c3c;}.login-msg.info{color:var(--gold2);}.login-msg.success{color:#2ecc71;}
+.countdown-bar{margin-top:8px;text-align:center;font-size:12px;color:var(--gold2);}
+
+/* APP */
+#app{display:none;min-height:100vh;padding-bottom:env(safe-area-inset-bottom);}
+.topbar{background:linear-gradient(180deg,var(--bg2) 0%,var(--bg3) 100%);border-bottom:2px solid var(--gold);padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.8),0 1px 0 rgba(200,160,16,.15);}
+.topbar-brand{display:flex;align-items:center;gap:12px;}
+.topbar-brand h1{font-family:'Oswald',sans-serif;font-size:17px;letter-spacing:3px;color:var(--gold2);}
+.topbar-brand p{font-size:9px;letter-spacing:2.5px;color:var(--text2);text-transform:uppercase;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.topbar-user{display:flex;align-items:center;gap:8px;padding:5px 12px;border-radius:6px;border:1px solid var(--border);cursor:pointer;transition:border .2s;}
+.topbar-user:hover{border-color:var(--gold);}.topbar-user .uname{font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1px;}
+.btn-theme{background:var(--bg3);border:1px solid var(--border);color:var(--text2);width:36px;height:36px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s;}
+.btn-theme:hover{border-color:var(--gold);color:var(--gold2);}
+.btn-logout{background:transparent;border:1px solid var(--border);color:var(--text2);padding:7px 12px;cursor:pointer;font-size:11px;letter-spacing:1px;font-family:inherit;border-radius:6px;transition:all .2s;}
+.btn-logout:hover{border-color:var(--red);color:#e74c3c;}
+.tabs-wrap{background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:58px;z-index:90;overflow-x:auto;scrollbar-width:none;}
+.tabs-wrap::-webkit-scrollbar{display:none;}
+.tabs{display:flex;padding:0 16px;min-width:max-content;}
+.tab-btn{padding:14px 18px;background:none;border:none;color:var(--text2);font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:2px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap;text-transform:uppercase;}
+.tab-btn:hover{color:var(--gold2);background:rgba(200,160,16,.05);}.tab-btn.active{color:var(--gold2);border-bottom-color:var(--gold);border-bottom-width:3px;}
+.content{padding:24px 20px;max-width:1080px;margin:0 auto;}
+.tab-panel{display:none;}.tab-panel.active{display:block;animation:fadeIn .25s ease;}
+.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.page-header h2{font-family:'Oswald',sans-serif;font-size:18px;letter-spacing:4px;color:var(--gold2);text-transform:uppercase;border-bottom:2px solid var(--gold);padding-bottom:6px;}
+
+/* FUNCIONAL */
+.funcional{background:linear-gradient(160deg,#08101e 0%,#050b16 100%);border:1px solid var(--border2);border-top:3px solid var(--gold);border-radius:4px;padding:28px 32px;max-width:600px;position:relative;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.8);}
+.funcional::before{content:'PF';position:absolute;top:10px;right:20px;font-family:'Oswald',sans-serif;font-size:100px;font-weight:700;color:rgba(201,162,39,.04);line-height:1;pointer-events:none;}
+.fc-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;}
+.fc-head .brand h2{font-family:'Oswald',sans-serif;font-size:14px;letter-spacing:4px;color:var(--gold2);}
+.fc-head .brand p{font-size:9px;letter-spacing:2.5px;color:var(--text2);text-transform:uppercase;margin-top:2px;}
+.fc-divider{height:1px;background:linear-gradient(90deg,var(--gold) 0%,transparent 100%);margin:18px 0;}
+.fc-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;}
+.fc-field label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text2);font-weight:600;display:block;margin-bottom:4px;}
+.fc-field .val{font-family:'Oswald',sans-serif;font-size:15px;letter-spacing:1px;}
+.fc-field.full{grid-column:1/-1;}
+.fc-status{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.status-indicator{width:8px;height:8px;border-radius:50%;display:inline-block;}
+.si-ativo{background:#10b981;box-shadow:0 0 6px #10b981;}.si-inativo{background:#ef4444;box-shadow:0 0 6px #ef4444;}
+.si-suspenso{background:#f59e0b;box-shadow:0 0 6px #f59e0b;}.si-aposentado{background:#6b7280;box-shadow:0 0 6px #6b7280;}
+.fc-medals-section h4{font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:2.5px;color:var(--text2);text-transform:uppercase;margin-bottom:10px;}
+.fc-medal-chips{display:flex;flex-wrap:wrap;gap:7px;}
+.medal-chip{padding:4px 10px;border-radius:5px;font-size:11px;font-family:'Oswald',sans-serif;letter-spacing:1px;display:inline-flex;align-items:center;gap:5px;border:1px solid;}
+.mc-bronze{background:rgba(205,127,50,.12);border-color:var(--bronze);color:var(--bronze);}
+.mc-prata{background:rgba(159,170,181,.12);border-color:var(--silver);color:var(--silver);}
+.mc-ouro{background:rgba(201,162,39,.12);border-color:var(--gold);color:var(--gold2);}
+.mc-diamante{background:rgba(126,200,227,.12);border-color:var(--diamond);color:var(--diamond);}
+.fc-signature{margin-top:24px;padding-top:18px;border-top:1px dashed rgba(201,162,39,.3);display:flex;justify-content:flex-end;}
+.sig-block{text-align:center;}.sig-name{font-family:'Dancing Script',cursive;font-size:30px;color:var(--gold2);}
+.sig-line{height:1px;background:rgba(201,162,39,.4);margin-bottom:4px;}.sig-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-top:3px;}
+
+/* CARGOS */
+.cargo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;}
+.cargo-card{background:linear-gradient(135deg,var(--panel) 0%,var(--bg3) 100%);border:1px solid var(--border);border-radius:6px;padding:22px 22px 22px 26px;position:relative;overflow:hidden;transition:border-color .2s,transform .2s,box-shadow .2s;}
+.cargo-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.6);}
+.cargo-card .num{position:absolute;bottom:12px;right:16px;font-family:'Oswald',sans-serif;font-size:56px;font-weight:700;color:rgba(255,255,255,.04);line-height:1;}
+.cargo-card h3{font-family:'Oswald',sans-serif;font-size:18px;letter-spacing:2px;margin-bottom:6px;}
+.cargo-card .nivel-bar{display:flex;gap:3px;margin-bottom:12px;}.nivel-pip{width:18px;height:4px;border-radius:2px;background:var(--border);}.nivel-pip.on{background:var(--gold);}
+.cargo-desc{font-size:13px;color:var(--text2);line-height:1.7;white-space:pre-line;}.btn-edit-desc{margin-top:12px;font-size:10px;padding:5px 12px;}
+
+/* MEDALHAS */
+.medal-user-card{background:linear-gradient(135deg,var(--panel) 0%,var(--bg3) 100%);border:1px solid var(--border);border-radius:4px;padding:18px;transition:border-color .2s,box-shadow .2s;}
+.medal-table{width:100%;border-collapse:collapse;font-size:13px;}
+.medal-table th{background:var(--bg3);padding:9px 12px;text-align:left;font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:2.5px;color:var(--text2);text-transform:uppercase;border-bottom:2px solid var(--gold);white-space:nowrap;position:sticky;top:0;}
+.medal-table td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.medal-table tbody tr:hover td{background:rgba(200,160,16,.05);cursor:pointer;}
+.rank-cell{font-size:16px;text-align:center;width:40px;}
+.name-cell{font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1px;}
+.area-pips{display:flex;gap:3px;justify-content:center;flex-wrap:wrap;}
+.medal-user-card:hover{border-color:rgba(201,162,39,.3);}
+.muc-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.muc-name{font-family:'Oswald',sans-serif;font-size:15px;letter-spacing:1px;}
+.muc-areas{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.muc-area{background:var(--bg3);border-radius:6px;padding:8px 10px;text-align:center;}
+.muc-area-name{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text2);margin-bottom:6px;font-weight:600;}
+.muc-area-medals{display:flex;justify-content:center;gap:4px;flex-wrap:wrap;}
+.med-pip{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;border:1px solid;}
+.mp-b{background:rgba(205,127,50,.2);border-color:var(--bronze);color:var(--bronze);}
+.mp-s{background:rgba(159,170,181,.2);border-color:var(--silver);color:var(--silver);}
+.mp-g{background:rgba(201,162,39,.2);border-color:var(--gold);color:var(--gold2);}
+.mp-d{background:rgba(126,200,227,.2);border-color:var(--diamond);color:var(--diamond);}
+.mp-n{background:var(--bg);border-color:var(--border);color:var(--text3);}
+.medal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.sub-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;}
+.sub-item{background:var(--bg3);border:1.5px solid var(--border);border-radius:6px;padding:10px;text-align:center;cursor:pointer;transition:all .2s;}
+.sub-item:hover{border-color:var(--gold);}.sub-item.selected{border-color:var(--gold);background:rgba(201,162,39,.1);}
+.sub-item .si-name{font-size:11px;font-weight:600;margin-bottom:4px;}.sub-item .si-medal{font-size:16px;}
+
+/* MEMBROS */
+.member-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+.member-card{background:linear-gradient(135deg,var(--panel) 0%,var(--bg3) 100%);border:1px solid var(--border);border-radius:4px;padding:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.member-card:active{transform:scale(.99);}
+.member-card:hover{border-color:rgba(200,160,16,.6);transform:translateY(-1px);box-shadow:0 6px 20px var(--shadow);cursor:pointer;}
+.mc-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
+.mc-info .mc-name{font-family:'Oswald',sans-serif;font-size:15px;letter-spacing:1px;}
+.mc-info .mc-reg{font-size:11px;color:var(--text2);margin-top:2px;font-family:'Courier New',monospace;}
+.mc-bottom{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.mc-cnt{font-size:11px;padding:3px 8px;border-radius:4px;font-family:'Oswald',sans-serif;letter-spacing:1px;display:flex;align-items:center;gap:3px;border:1px solid;}
+.search-row{display:flex;gap:10px;margin-bottom:22px;}.search-inp{flex:1;}
+
+/* AVISOS */
+.aviso-card{background:linear-gradient(135deg,var(--panel) 0%,var(--bg3) 100%);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:0 4px 4px 0;padding:18px 20px;margin-bottom:12px;transition:border-color .2s;}
+.aviso-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:12px;}
+.aviso-title{font-family:'Oswald',sans-serif;font-size:16px;letter-spacing:1px;}
+.aviso-meta{font-size:11px;color:var(--text2);margin-bottom:10px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+.aviso-body{font-size:14px;color:var(--text2);line-height:1.7;white-space:pre-wrap;}
+
+/* LISTA NEGRA */
+.blacklist-table{width:100%;border-collapse:collapse;}
+.blacklist-table th{background:var(--bg3);padding:11px 14px;text-align:left;font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:2px;color:var(--text2);text-transform:uppercase;border-bottom:2px solid var(--gold);}
+.blacklist-table td{padding:12px 14px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle;}
+.blacklist-table tr:hover td{background:rgba(255,255,255,.02);}
+
+/* CRIMES & PRISOES */
+.stars{display:flex;gap:2px;}.star{color:var(--border);font-size:14px;cursor:pointer;}.star.on{color:#f59e0b;}
+.crime-card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.crime-name{font-family:'Oswald',sans-serif;font-size:14px;letter-spacing:1px;}.crime-desc{font-size:12px;color:var(--text2);margin-top:2px;}
+.prisao-card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:10px;}
+.prisao-nome{font-family:'Oswald',sans-serif;font-size:15px;letter-spacing:1px;margin-bottom:6px;}
+.sub-tabs{display:flex;gap:0;background:var(--bg3);border-radius:8px;padding:3px;margin-bottom:22px;width:fit-content;}
+.sub-tab{padding:8px 20px;cursor:pointer;font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:2px;color:var(--text2);border-radius:6px;transition:all .2s;}
+.sub-tab.active{background:var(--gold);color:#0a0e1a;font-weight:700;}
+
+/* EQUIPES */
+.equipe-card{background:linear-gradient(135deg,var(--panel) 0%,var(--bg3) 100%);border:1px solid var(--border);border-radius:4px;padding:20px;margin-bottom:14px;border-left:3px solid var(--border2);transition:border-color .2s;}
+.eq-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
+.eq-name{font-family:'Oswald',sans-serif;font-size:18px;letter-spacing:2px;}
+.eq-info{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.eq-field label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text2);font-weight:600;display:block;margin-bottom:3px;}
+.eq-field .val{font-size:13px;}
+.eq-members{display:flex;flex-wrap:wrap;gap:7px;}
+.eq-member-chip{padding:4px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;font-size:12px;display:flex;align-items:center;gap:6px;}
+
+/* MODALS */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px;animation:fadeIn .2s;}
+.modal{background:var(--panel);border:1px solid var(--border2);border-top:2px solid var(--gold);border-radius:4px;padding:28px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;animation:slideUp .3s cubic-bezier(.16,1,.3,1);box-shadow:0 24px 60px rgba(0,0,0,.85);}
+.modal.modal-lg{max-width:680px;}
+.modal h2{font-family:'Oswald',sans-serif;font-size:18px;letter-spacing:3px;color:var(--gold2);margin-bottom:22px;}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap;}
+.modal-msg{font-size:13px;text-align:center;min-height:18px;margin-top:8px;}
+.modal-msg.success{color:#2ecc71;}.modal-msg.error{color:#e74c3c;}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:20px;z-index:1000;background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--gold2);padding:12px 18px;border-radius:8px;font-size:13px;max-width:300px;box-shadow:0 8px 24px var(--shadow);animation:toastIn .3s cubic-bezier(.16,1,.3,1);}
+.toast.success{border-left-color:#2ecc71;}.toast.error{border-left-color:#e74c3c;}
+
+/* MISC */
+.empty{text-align:center;padding:48px 20px;color:var(--text2);}.empty .empty-icon{font-size:48px;margin-bottom:12px;opacity:.4;}
+.section-title{font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:3px;color:var(--text2);text-transform:uppercase;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:8px;}
+.divider{height:1px;background:var(--border);margin:20px 0;}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;}.col-auto{flex:0 0 auto;}.col{flex:1;min-width:160px;}
+
+@keyframes toastIn{from{opacity:0;transform:translateX(50px)}to{opacity:1;transform:translateX(0)}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:640px){
+  .content{padding:16px 12px;}.topbar{padding:0 12px;}.topbar-brand p{display:none;}
+  .login-card{padding:28px 22px;}.funcional{padding:20px 18px;}.fc-grid{grid-template-columns:1fr;}
+  .muc-areas{grid-template-columns:repeat(2,1fr);}.modal{padding:22px 18px;}.modal.modal-lg{max-width:100%;}
+  .sub-grid{grid-template-columns:1fr 1fr;}.eq-info{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="shield-icon shield-lg">PF</div>
+        <h1>POLÍCIA FEDERAL</h1>
+        <p>Sistema Interno · RP 2026</p>
+      </div>
+      <div class="login-quote" id="loginQuote"></div>
+      <div class="login-tabs">
+        <div class="login-tab active" onclick="switchLoginMode('login')">ENTRAR</div>
+        <div class="login-tab" onclick="switchLoginMode('register')">CADASTRAR</div>
+      </div>
+      <div id="loginForm">
+        <div class="form-group autocomplete-wrap">
+          <label>Identificação do Agente</label>
+          <input class="inp" type="text" id="loginUser" placeholder="Digite seu codinome..." autocomplete="off" oninput="onUserSearch(this.value)" onkeydown="if(event.key==='Enter')document.getElementById('loginPass').focus()">
+          <div class="user-dd" id="userDd"></div>
+        </div>
+        <div class="form-group">
+          <label>Senha de Acesso</label>
+          <div style="position:relative"><input class="inp" type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()" style="padding-right:42px"><button type="button" onclick="togglePwd('loginPass',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text2);cursor:pointer;font-size:16px;padding:0">👁</button></div>
+        </div>
+        <button class="btn btn-gold btn-block" id="btnLogin" onclick="doLogin()" style="padding:14px;font-size:13px;letter-spacing:3px;margin-top:4px">ACESSAR SISTEMA</button>
+      </div>
+      <div id="registerForm" style="display:none">
+        <div class="form-group">
+          <label>Escolher Codinome</label>
+          <input class="inp" type="text" id="regUser" placeholder="SEU_CODINOME (mín. 3 caracteres)">
+        </div>
+        <div class="form-group">
+          <label>Criar Senha</label>
+          <div style="position:relative"><input class="inp" type="password" id="regPass" placeholder="Mínimo 4 caracteres" style="padding-right:42px"><button type="button" onclick="togglePwd('regPass',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text2);cursor:pointer;font-size:16px;padding:0">👁</button></div>
+        </div>
+        <div class="form-group">
+          <label>Confirmar Senha</label>
+          <input class="inp" type="password" id="regPass2" placeholder="Repita a senha" onkeydown="if(event.key==='Enter')doRegister()">
+        </div>
+        <button class="btn btn-gold btn-block" id="btnReg" onclick="doRegister()">SOLICITAR CADASTRO</button>
+        <p style="font-size:11px;color:var(--text2);text-align:center;margin-top:10px;">Você entrará como <strong style="color:var(--gold2)">Guarda</strong>. Um superior irá promovê-lo.</p>
+      </div>
+      <div class="login-msg" id="loginMsg"></div>
+      <div class="countdown-bar" id="countdownBar"></div>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="shield-icon shield-sm" style="font-size:12px">PF</div>
+      <div><h1>POLÍCIA FEDERAL</h1><p>Sistema Interno · RP</p></div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-theme" id="btnTheme" onclick="toggleTheme()">🌙</button>
+      <div class="topbar-user" onclick="openMyProfile()">
+        <span id="topBadge"></span>
+        <span class="uname" id="topName"></span>
+      </div>
+      <button class="btn-logout" onclick="doLogout()">SAIR</button>
+    </div>
+  </div>
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('funcional')" data-tab="funcional">🪪 Funcional</button>
+      <button class="tab-btn" onclick="showTab('cargos')" data-tab="cargos">📋 Cargos</button>
+      <button class="tab-btn" onclick="showTab('medalhas')" data-tab="medalhas">🏅 Medalhas</button>
+      <button class="tab-btn" onclick="showTab('membros')" data-tab="membros">👥 Membros</button>
+      <button class="tab-btn" onclick="showTab('avisos')" data-tab="avisos">📢 Avisos</button>
+      <button class="tab-btn" onclick="showTab('listanegra')" data-tab="listanegra">🚫 Lista Negra</button>
+      <button class="tab-btn" onclick="showTab('crimes')" data-tab="crimes">⚖️ Crimes &amp; Prisões</button>
+      <button class="tab-btn" onclick="showTab('equipes')" data-tab="equipes">🏛️ Equipes</button>
+      <button class="tab-btn" onclick="showTab('regras')" data-tab="regras">📜 Regras</button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="tab-panel active" id="tab-funcional"><div id="myFuncionalWrap"></div></div>
+    <div class="tab-panel" id="tab-cargos">
+      <div class="page-header"><h2>ESTRUTURA DE CARGOS</h2></div>
+      <div class="cargo-grid" id="cargoGrid"></div>
+    </div>
+    <div class="tab-panel" id="tab-medalhas">
+      <div class="page-header">
+        <h2>QUADRO DE MEDALHAS</h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-gold btn-sm" id="btnConceder" onclick="openMedalModal()" style="display:none">🏅 CONCEDER MEDALHA</button>
+          <button class="btn btn-blue btn-sm" id="btnProva" onclick="openProvaModal()" style="display:none">📝 APLICAR PROVA</button>
+        </div>
+      </div>
+      <!-- SUB TABS -->
+      <div class="sub-tabs" style="margin-bottom:20px">
+        <div class="sub-tab active" onclick="switchMedalSubTab('medalhas')">🏅 MEDALHAS</div>
+        <div class="sub-tab" onclick="switchMedalSubTab('pontuacao')">🏆 PONTUAÇÃO</div>
+      </div>
+      <div id="medalSubPanelMedalhas">
+        <div style="margin-bottom:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <input class="inp" type="text" id="medalSearch" placeholder="🔍 Filtrar agente..." oninput="filterMedals(this.value)" style="max-width:240px;padding:8px 12px">
+          <span style="font-size:11px;color:var(--text2)" id="medalCount"></span>
+        </div>
+        <div style="overflow-x:auto"><div id="medalGrid"></div></div>
+      </div>
+      <div id="medalSubPanelPontuacao" style="display:none">
+        <p style="font-size:12px;color:var(--text2);margin-bottom:18px">Somatória de todos os pontos obtidos em provas. Ranking atualizado em tempo real.</p>
+        <div id="pontuacaoListInline"></div>
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-membros">
+      <div class="page-header">
+        <h2>MEMBROS DA CORPORAÇÃO</h2>
+        <button class="btn btn-gold btn-sm" id="btnCadastrar" onclick="openCadastroModal()" style="display:none">+ CADASTRAR MEMBRO</button>
+      </div>
+      <div class="search-row"><input class="inp search-inp" type="text" placeholder="🔍 Buscar membro..." oninput="filterMembers(this.value)"></div>
+      <div class="member-grid" id="memberGrid"></div>
+    </div>
+    <div class="tab-panel" id="tab-avisos">
+      <div class="page-header">
+        <h2>AVISOS OFICIAIS</h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-gold btn-sm" id="btnNovoAviso" onclick="openAvisoModal()" style="display:none">+ NOVO AVISO</button>
+          <button class="btn btn-blue btn-sm" id="btnHomenagem" onclick="openHomenagemModal()" style="display:none">🏆 HOMENAGEAR</button>
+        </div>
+      </div>
+      <div id="avisosList"></div>
+    </div>
+    <div class="tab-panel" id="tab-listanegra">
+      <div class="page-header">
+        <h2>LISTA NEGRA</h2>
+        <button class="btn btn-red btn-sm" id="btnAddBlacklist" onclick="openBlacklistModal()" style="display:none">+ ADICIONAR</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="blacklist-table">
+          <thead><tr><th>#</th><th>NOME / NICK</th><th>MOTIVO</th><th>ADICIONADO POR</th><th>DATA</th><th id="blDeleteCol"></th></tr></thead>
+          <tbody id="blacklistBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-crimes">
+      <div class="sub-tabs">
+        <div class="sub-tab active" onclick="switchCrimeTab('crimes')">⭐ CRIMES</div>
+        <div class="sub-tab" onclick="switchCrimeTab('prisoes')">🔒 PRISÕES</div>
+      </div>
+      <div id="crimePanel">
+        <div class="page-header">
+          <h2>TABELA DE CRIMES</h2>
+          <button class="btn btn-gold btn-sm" id="btnAddCrime" onclick="openCrimeModal()" style="display:none">+ CADASTRAR CRIME</button>
+        </div>
+        <div style="margin-bottom:14px"><input class="inp" type="text" id="crimeSearch" placeholder="🔍 Buscar crime..." oninput="filterCrimes(this.value)" style="max-width:280px;padding:8px 12px"></div>
+        <div id="crimesList"></div>
+      </div>
+      <div id="prisaoPanel" style="display:none">
+        <div class="page-header">
+          <h2>REGISTRO DE PRISÕES</h2>
+          <button class="btn btn-gold btn-sm" id="btnAddPrisao" onclick="openPrisaoModal()" style="display:none">+ REGISTRAR PRISÃO</button>
+        </div>
+        <div style="margin-bottom:14px"><input class="inp" type="text" id="prisaoSearch" placeholder="🔍 Buscar preso..." oninput="filterPrisoes(this.value)" style="max-width:280px;padding:8px 12px"></div>
+        <div id="prisoesList"></div>
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-equipes">
+      <div class="page-header">
+        <h2>EQUIPES OPERACIONAIS</h2>
+        <button class="btn btn-gold btn-sm" id="btnNovaEquipe" onclick="openEquipeModal()" style="display:none">+ NOVA EQUIPE</button>
+      </div>
+      <div id="equipesList"></div>
+    <!-- REGRAS -->
+    <div class="tab-panel" id="tab-regras">
+      <div class="page-header">
+        <h2>REGULAMENTO INTERNO</h2>
+        <button class="btn btn-gold btn-sm" id="btnNovaRegra" onclick="openRegraModal()" style="display:none">✚ NOVA REGRA</button>
+      </div>
+      <div id="regrasList">
+        <div class="empty"><div class="empty-icon">📜</div><p>Carregando regras...</p></div>
+      </div>
+    </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="profileOverlay" style="display:none" onclick="if(event.target===this)closeModal('profileOverlay')">
+  <div class="modal modal-lg" id="profileContent"></div>
+</div>
+<div class="modal-overlay" id="medalOverlay" style="display:none" onclick="if(event.target===this)closeModal('medalOverlay')">
+  <div class="modal">
+    <h2>🏅 CONCEDER MEDALHA</h2>
+    <div class="form-group"><label>Membro</label><select class="inp" id="mMember"></select></div>
+    <div class="form-group"><label>Área</label><select class="inp" id="mArea" onchange="populateMedalSubs()"></select></div>
+    <div class="form-group"><label>Sub-área</label><div class="sub-grid" id="mSubGrid"></div></div>
+    <input type="hidden" id="mSubSelected">
+    <div class="form-group" style="margin-top:16px">
+      <label>Pontuação (0–100)</label>
+      <input class="inp" type="number" id="mPts" min="0" max="100" placeholder="Ex: 88" oninput="updatePtsFeedback()">
+      <div id="ptsFeedback" style="margin-top:5px;font-size:12px;font-weight:600"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('medalOverlay')">CANCELAR</button>
+      <button class="btn btn-gold btn-sm" onclick="submitMedal()">CONCEDER</button>
+    </div>
+    <div class="modal-msg" id="medalMsg"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="cadastroOverlay" style="display:none" onclick="if(event.target===this)closeModal('cadastroOverlay')">
+  <div class="modal">
+    <h2>👤 CADASTRAR MEMBRO</h2>
+    <div class="form-group"><label>Codinome</label><input class="inp" type="text" id="cadUser" placeholder="NOVO_AGENTE"></div>
+    <div class="form-group"><label>Senha Inicial</label><input class="inp" type="password" id="cadPass" placeholder="senha123"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('cadastroOverlay')">CANCELAR</button>
+      <button class="btn btn-gold btn-sm" onclick="submitCadastro()">CADASTRAR</button>
+    </div>
+    <div class="modal-msg" id="cadMsg"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="avisoOverlay" style="display:none" onclick="if(event.target===this)closeModal('avisoOverlay')">
+  <div class="modal">
+    <h2 id="avisoModalTitle">📢 NOVO AVISO</h2>
+    <input type="hidden" id="avisoEditId">
+    <div class="form-group"><label>Título</label><input class="inp" type="text" id="avisoTitulo" placeholder="Título do aviso"></div>
+    <div class="form-group"><label>Conteúdo</label><textarea class="inp" id="avisoConteudo" rows="5" placeholder="Escreva o aviso aqui..."></textarea></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('avisoOverlay')">CANCELAR</button>
+      <button class="btn btn-gold btn-sm" onclick="submitAviso()">PUBLICAR</button>
+    </div>
+    <div class="modal-msg" id="avisoMsg"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="blOverlay" style="display:none" onclick="if(event.target===this)closeModal('blOverlay')">
+  <div class="modal">
+    <h2>🚫 ADICIONAR À LISTA NEGRA</h2>
+    <div class="form-group"><label>Nome / Nick</label><input class="inp" type="text" id="blNome" placeholder="Nome da pessoa"></div>
+    <div class="form-group"><label>Motivo</label><textarea class="inp" id="blMotivo" rows="3" placeholder="Motivo da inclusão..."></textarea></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('blOverlay')">CANCELAR</button>
+      <button class="btn btn-red btn-sm" onclick="submitBlacklist()">ADICIONAR</button>
+    </div>
+    <div class="modal-msg" id="blMsg"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="crimeOverlay" style="display:none" onclick="if(event.target===this)closeModal('crimeOverlay')">
+  <div class="modal">
+    <h2>⭐ CADASTRAR CRIME</h2>
+    <div class="form-group"><label>Nome do Crime</label><input class="inp" type="text" id="crimeNome" placeholder="Ex: Tráfico de Drogas"></div>
+    <div class="form-group">
+      <label>Estrelas (1–6)</label>
+      <div class="stars" id="crimeStarsInput">
+        <span class="star on" onclick="setCrimeStars(1)">★</span><span class="star on" onclick="setCrimeStars(2)">★</span>
+        <span class="star" onclick="setCrimeStars(3)">★</span><span class="star" onclick="setCrimeStars(4)">★</span>
+        <span class="star" onclick="setCrimeStars(5)">★</span><span class="star" onclick="setCrimeStars(6)">★</span>
+      </div>
+      <input type="hidden" id="crimeStars" value="2">
+    </div>
+    <div class="form-group"><label>Descrição (opcional)</label><textarea class="inp" id="crimeDesc" rows="2" placeholder="Detalhes do crime..."></textarea></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('crimeOverlay')">CANCELAR</button>
+      <button class="btn btn-gold btn-sm" onclick="submitCrime()">CADASTRAR</button>
+    </div>
+    <div class="modal-msg" id="crimeMsg"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="prisaoOverlay" style="display:none" onclick="if(event.target===this)closeModal('prisaoOverlay')">
+  <div class="modal">
+    <h2>🔒 REGISTRAR PRISÃO</h2>
+    <div class="form-group"><label>Nome do Preso</label><input class="inp" type="text" id="preso" placeholder="Nome / Nick do preso"></div>
+    <div class="form-group">
+      <label>Crimes Cometidos</label>
+      <div id="crimeCheckList" style="max-height:220px;overflow-y:auto;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:7px;"></div>
+    </div>
+    <div style="padding:10px 0;font-size:13px;color:var(--text2)">Total de estrelas: <strong id="totalEst" style="color:var(--gold2)">0 ⭐</strong></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('prisaoOverlay')">CANCELAR</button>
+      <button class="btn btn-gold btn-sm" onclick="submitPrisao()">REGISTRAR</button>
+    </div>
+    <div class="modal-msg" id="prisaoMsg"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="equipeOverlay" style="display:none" onclick="if(event.target===this)closeModal('equipeOverlay')">
+  <div class="modal">
+    <h2>🏛️ NOVA EQUIPE</h2>
+    <div class="form-group"><label>Nome da Equipe</label><input class="inp" type="text" id="eqNome" placeholder="Nome operacional"></div>
+    <div class="form-group"><label>Delegado Responsável</label><select class="inp" id="eqDelegado"></select></div>
+    <div class="form-group"><label>Líder da Equipe</label><select class="inp" id="eqLider"></select></div>
+    <div class="form-group"><label>QTH (opcional)</label><input class="inp" type="text" id="eqQth" placeholder="Ex: Delegacia Central"></div>
+    <div class="form-group"><label>Tipo de Operação (opcional)</label><input class="inp" type="text" id="eqAcao" placeholder="Ex: Busca e Apreensão"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('equipeOverlay')">CANCELAR</button>
+      <button class="btn btn-gold btn-sm" onclick="submitEquipe()">CRIAR EQUIPE</button>
+    </div>
+    <div class="modal-msg" id="equipeMsg"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="eqMemberOverlay" style="display:none" onclick="if(event.target===this)closeModal('eqMemberOverlay')">
+  <div class="modal">
+    <h2>➕ ADICIONAR MEMBROS</h2>
+    <input type="hidden" id="eqMemberEquipeId">
+    <div class="form-group">
+      <label>Selecione os membros (pode marcar vários)</label>
+      <div id="eqMemberCheckList" style="max-height:280px;overflow-y:auto;background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:10px;display:flex;flex-direction:column;gap:7px;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('eqMemberOverlay')">CANCELAR</button>
+      <button class="btn btn-gold btn-sm" onclick="submitAddMember()">ADICIONAR SELECIONADOS</button>
+    </div>
+    <div class="modal-msg" id="eqMemberMsg"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="descOverlay" style="display:none" onclick="if(event.target===this)closeModal('descOverlay')">
+  <div class="modal">
+    <h2 id="descModalTitle">EDITAR DESCRIÇÃO</h2>
+    <input type="hidden" id="descCargo">
+    <div class="form-group"><label>Descrição do Cargo</label><textarea class="inp" id="descText" rows="5"></textarea></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('descOverlay')">CANCELAR</button>
+      <button class="btn btn-gold btn-sm" onclick="submitDescEdit()">SALVAR</button>
+    </div>
+    <div class="modal-msg" id="descMsg"></div>
+  </div>
+</div>
+
+<script>
+
+// ══════════════════════════════════════════════════════
+// CONFIGURAÇÃO — cole aqui o link /exec do seu Apps Script
+// ══════════════════════════════════════════════════════
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwl-IfCNE1dJVF_wlxVoj7Vw0mG1u_KY4L05GggotaQl3ktnFZV2Fy8MIRGynbVm_DNDQ/exec';
+
+function callApi(action) {
+  const args = Array.from(arguments).slice(1);
+  return fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'cors',
+    headers: {'Content-Type': 'text/plain'},
+    body: JSON.stringify({action, args})
+  }).then(r => {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  }).catch(err => {
+    console.error('callApi error:', action, err);
+    toast('Erro de conexão. Tente novamente.', 'error');
+    return {ok: false, msg: 'Erro de conexão.'};
+  });
+}
+// ══════════════════════════════════════════════════════
+
+'use strict';
+let S={token:null,user:null,sig:'',areasData:{}};
+let MEMBERS=[];let ALL_CRIMES_CACHE=[];let DARK_THEME=true;let CD_TIMER=null;
+const QUOTES=['"A lei é igual para todos."','"Proteger e Servir — mais que um slogan, um dever."','"O dever de um policial é maior que o medo."','"Onde há ordem, há progresso."','"Disciplina é a alma do sucesso."','"Justiça não escolhe lado."','"A coragem não é ausência de medo, mas agir apesar dele."','"Um agente honesto vale mais que cem suspeitos."'];
+const CARGO_LEVEL={Guarda:1,Agente:2,'Tático':3,'Escrivão':4,Delegado:5,Comandante:6};
+const CARGO_ICONS={Guarda:'🛡️',Agente:'🔵','Tático':'🟠','Escrivão':'🟣',Delegado:'🟢',Comandante:'⭐'};
+function toggleTheme(){DARK_THEME=!DARK_THEME;document.body.classList.toggle('light',!DARK_THEME);document.getElementById('btnTheme').textContent=DARK_THEME?'🌙':'☀️';}
+document.getElementById('loginQuote').textContent=QUOTES[Math.floor(Math.random()*QUOTES.length)];
+function switchLoginMode(mode){const isLogin=mode==='login';document.getElementById('loginForm').style.display=isLogin?'block':'none';document.getElementById('registerForm').style.display=isLogin?'none':'block';document.querySelectorAll('.login-tab').forEach((t,i)=>t.classList.toggle('active',(i===0)===isLogin));setLoginMsg('','');}
+function onUserSearch(val){if(val.length<3){closeDd();return;}callApi('searchUsersForLogin',val).then(res=>{if(!res.ok||!res.users.length){closeDd();return;}const dd=document.getElementById('userDd');dd.innerHTML=res.users.map(u=>`<div class="user-opt" onmousedown="selectUser('${u.username}')"><div><div class="opt-name">${u.username}</div><div class="opt-reg">${u.registro||''}</div></div><span class="badge ${badgeCls(u.cargo)}">${u.cargo.toUpperCase()}</span></div>`).join('');dd.style.display='block';});}
+function selectUser(username){document.getElementById('loginUser').value=username;closeDd();document.getElementById('loginPass').focus();}
+function closeDd(){document.getElementById('userDd').style.display='none';}
+document.getElementById('loginUser').addEventListener('blur',()=>setTimeout(closeDd,200));
+document.addEventListener('click',e=>{if(!e.target.closest('.autocomplete-wrap'))closeDd();});
+function doLogin(){const u=document.getElementById('loginUser').value.trim();const p=document.getElementById('loginPass').value;if(!u||!p){setLoginMsg('Preencha todos os campos.','error');return;}document.getElementById('btnLogin').disabled=true;setLoginMsg('Verificando...','info');callApi('login',u,p).then(onLoginResult).catch(e=>{document.getElementById('btnLogin').disabled=false;setLoginMsg('Erro: '+e.message,'error');});}
+function onLoginResult(res){document.getElementById('btnLogin').disabled=false;if(!res.ok){setLoginMsg(res.msg,'error');if(res.blocked&&res.secs)startCountdown(res.secs);return;}S.token=res.token;S.user=res.user;S.sig=res.commanderSignature;S.areasData=res.areasData;bootApp();}
+function doRegister(){const u=document.getElementById('regUser').value.trim();const p=document.getElementById('regPass').value;const p2=document.getElementById('regPass2').value;if(!u||!p||!p2){setLoginMsg('Preencha todos os campos.','error');return;}if(p!==p2){setLoginMsg('As senhas não coincidem.','error');return;}document.getElementById('btnReg').disabled=true;setLoginMsg('Processando...','info');callApi('selfRegister',u,p).then(res=>{document.getElementById('btnReg').disabled=false;setLoginMsg(res.msg,res.ok?'success':'error');if(res.ok)switchLoginMode('login');setLoginMsg('','');}).catch(e=>{document.getElementById('btnReg').disabled=false;setLoginMsg('Erro: '+e.message,'error');});}
+function setLoginMsg(msg,type){const el=document.getElementById('loginMsg');el.textContent=msg;el.className='login-msg '+type;}
+function startCountdown(secs){if(CD_TIMER)clearInterval(CD_TIMER);let r=secs;document.getElementById('btnLogin').disabled=true;const el=document.getElementById('countdownBar');const tick=()=>{el.textContent=r>0?`⏳ Aguarde ${r}s para tentar novamente`:'';if(r<=0){clearInterval(CD_TIMER);document.getElementById('btnLogin').disabled=false;setLoginMsg('','');}r--;};tick();CD_TIMER=setInterval(tick,1000);}
+function doLogout(){S={token:null,user:null,sig:'',areasData:{}};MEMBERS=[];document.getElementById('loginUser').value='';document.getElementById('loginPass').value='';document.getElementById('app').style.display='none';document.getElementById('loginScreen').style.display='flex';setLoginMsg('','');document.getElementById('countdownBar').textContent='';document.getElementById('loginQuote').textContent=QUOTES[Math.floor(Math.random()*QUOTES.length)];}
+function bootApp(){document.getElementById('loginScreen').style.display='none';document.getElementById('app').style.display='block';const cargo=S.user.cargo;document.getElementById('topBadge').innerHTML=`<span class="badge ${badgeCls(cargo)}">${cargo.toUpperCase()}</span>`;document.getElementById('topName').textContent=S.user.username;const lvl=CARGO_LEVEL[cargo]||0;if(['Comandante','Delegado'].includes(cargo))document.getElementById('btnCadastrar').style.display='flex';if(lvl>=4){document.getElementById('btnConceder').style.display='flex';document.getElementById('btnNovoAviso').style.display='flex';document.getElementById('btnAddBlacklist').style.display='flex';document.getElementById('btnAddPrisao').style.display='flex';document.getElementById('btnHomenagem').style.display='flex';}if(['Delegado','Comandante'].includes(cargo)){document.getElementById('btnAddCrime').style.display='flex';document.getElementById('btnNovaEquipe').style.display='flex';document.getElementById('btnProva').style.display='flex';}if(cargo==='Comandante'){document.getElementById('blDeleteCol').textContent='AÇÃO';}if((CARGO_LEVEL[cargo]||0)>=4)document.getElementById('btnNovaRegra').style.display='flex';loadMyFuncional();loadMembers();buildCargoTab();}
+function showTab(name){document.querySelectorAll('.tab-panel').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+name).classList.add('active');document.querySelector(`[data-tab="${name}"]`).classList.add('active');if(name==='medalhas')loadMedalTab();if(name==='membros')renderMembers(MEMBERS);if(name==='avisos')loadAvisos();if(name==='listanegra')loadBlacklist();if(name==='crimes')loadCrimes();if(name==='equipes')loadEquipes();if(name==='regras')loadRegras();}
+function loadMyFuncional(){callApi('getMemberProfile',S.token,S.user.id).then(res=>{if(!res.ok){toast('Erro ao carregar funcional','error');return;}document.getElementById('myFuncionalWrap').innerHTML=buildFuncionalHTML(res.user,res.medals,res.medalSummary,res.commanderSignature);});}
+function buildFuncionalHTML(user,medals,summary,sig){const cargo=user.cargo;const status=user.status||'ativo';const siCls={ativo:'si-ativo',inativo:'si-inativo',suspenso:'si-suspenso',aposentado:'si-aposentado'}[status]||'si-ativo';const badgeSt={ativo:'badge-ativo',inativo:'badge-inativo',suspenso:'badge-suspenso',aposentado:'badge-aposentado'}[status]||'badge-ativo';const chips=buildMedalChips(medals,summary);let durText='';if(status!=='ativo'&&user.status_duracao)durText=` · ${user.status_duracao==='indeterminado'?'Tempo Indeterminado':user.status_duracao+' dias'}`;return `<div class="funcional"><div class="fc-head"><div style="display:flex;align-items:center;gap:12px"><div class="shield-icon" style="font-size:14px">PF</div><div class="brand"><h2>POLÍCIA FEDERAL</h2><p>Identidade Funcional · RP</p></div></div><span class="badge ${badgeCls(cargo)}">${(CARGO_ICONS[cargo]||'')+' '+cargo.toUpperCase()}</span></div><div class="fc-divider"></div><div class="fc-grid"><div class="fc-field"><label>Nome / Codinome</label><div class="val">${user.username}</div></div><div class="fc-field"><label>Nº de Registro</label><div class="val mono" style="font-size:13px">${user.registro}</div></div><div class="fc-field"><label>Data de Ingresso</label><div class="val">${fmtDate(user.criado_em)}</div></div><div class="fc-field"><label>Status da Funcional</label><div class="fc-status"><span class="status-indicator ${siCls}"></span><span class="badge ${badgeSt}">${status.toUpperCase()}${durText}</span></div></div></div><div class="fc-divider"></div><div class="fc-medals-section"><h4>Condecorações &amp; Medalhas</h4><div class="fc-medal-chips">${chips||'<span style="color:var(--text2);font-size:13px">Nenhuma medalha conquistada ainda.</span>'}</div></div><div class="fc-signature"><div class="sig-block"><div class="sig-line" style="width:160px"></div><div class="sig-name">${sig}</div><div class="sig-label">Comandante · PF-RP</div></div></div></div>`;}
+function buildMedalChips(medals,summary){if(!medals||!medals.length)return'';let h='';if(summary)Object.keys(summary).forEach(a=>{if(summary[a].diamante)h+=`<span class="medal-chip mc-diamante">💎 ${a}</span>`;});medals.forEach(m=>{const cls=m.tipo==='Ouro'?'mc-ouro':m.tipo==='Prata'?'mc-prata':'mc-bronze';const ico=m.tipo==='Ouro'?'🥇':m.tipo==='Prata'?'🥈':'🥉';h+=`<span class="medal-chip ${cls}">${ico} ${m.sub_area}</span>`;});return h;}
+function buildCargoTab(){callApi('getCargoDescs',S.token).then(res=>{if(!res.ok)return;const cargos=['Guarda','Agente','Tático','Escrivão','Delegado','Comandante'];const cc={Guarda:'#64748b',Agente:'#3b82f6','Tático':'#f97316','Escrivão':'#8b5cf6',Delegado:'#10b981',Comandante:'#c9a227'};let html='';cargos.forEach((c,i)=>{const lvl=i+1;const pips=Array.from({length:6},(_,j)=>`<div class="nivel-pip${j<lvl?' on':''}"></div>`).join('');const canEdit=S.user.cargo==='Comandante';html+=`<div class="cargo-card" style="border-color:${cc[c]}30"><div class="num">${lvl}</div><h3 style="color:${cc[c]}">${CARGO_ICONS[c]||''} ${c}</h3><div class="nivel-bar">${pips}</div><div class="cargo-desc" id="desc-${c}">${escHTML(res.descs[c]||'')}</div>${canEdit?`<button class="btn btn-ghost btn-edit-desc btn-xs" onclick="openDescEdit('${c}')">✏️ EDITAR DESCRIÇÃO</button>`:''}</div>`;});document.getElementById('cargoGrid').innerHTML=html;});}
+function switchMedalSubTab(tab){
+  document.querySelectorAll('.sub-tabs .sub-tab').forEach((el,i)=>el.classList.toggle('active',(i===0)===(tab==='medalhas')));
+  document.getElementById('medalSubPanelMedalhas').style.display=tab==='medalhas'?'':'none';
+  document.getElementById('medalSubPanelPontuacao').style.display=tab==='pontuacao'?'':'none';
+  if(tab==='medalhas')loadMedalTab();else loadPontuacaoInline();
+}
+function loadPontuacaoInline(){callApi('getPontuacaoRanking',S.token).then(res=>{if(!res.ok)return;const el=document.getElementById('pontuacaoListInline');if(!res.ranking.length){el.innerHTML='<div class="empty"><div class="empty-icon">🏆</div><p>Nenhum agente com pontuação ainda.</p></div>';return;}const maxPts=res.ranking[0]?.totalPontos||1;el.innerHTML=`<table class="medal-table"><thead><tr><th style="width:44px">#</th><th>AGENTE</th><th>CARGO</th><th>PONTUAÇÃO</th><th>MEDALHAS</th><th style="min-width:140px">PROGRESSO</th></tr></thead><tbody>${res.ranking.map((u,i)=>{const pct=Math.round((u.totalPontos/maxPts)*100);const rankIco=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}`;return `<tr><td class="rank-cell">${rankIco}</td><td class="name-cell">${u.username}</td><td><span class="badge ${badgeCls(u.cargo)}">${u.cargo.toUpperCase()}</span></td><td style="font-family:'Oswald',sans-serif;font-size:16px;color:var(--gold2)">${u.totalPontos}<span style="font-size:10px;color:var(--text2);margin-left:3px">pts</span></td><td style="text-align:center;color:var(--text2)">${u.totalMedalhas}</td><td><div class="pts-bar-wrap"><div class="pts-bar" style="width:${pct}%"></div></div></td></tr>`;}).join('')}</tbody></table>`;});}
+function loadMedalTab(){callApi('getAreasData',S.token).then(res=>{if(!res.ok)return;
+const areas=Object.keys(res.areas||{});const grid=document.getElementById('medalGrid');
+let usersWithMedals=(res.users||[]).filter(u=>u.total>0);
+usersWithMedals.sort((a,b)=>{const ca=countMedalTotals(a.medalSummary),cb=countMedalTotals(b.medalSummary);
+  if(cb.diamante!==ca.diamante)return cb.diamante-ca.diamante;
+  if(cb.ouro!==ca.ouro)return cb.ouro-ca.ouro;
+  if(cb.prata!==ca.prata)return cb.prata-ca.prata;
+  if(cb.bronze!==ca.bronze)return cb.bronze-ca.bronze;
+  return(CARGO_LEVEL[b.cargo]||0)-(CARGO_LEVEL[a.cargo]||0);});
+window._ALL_MEDAL_USERS=usersWithMedals;window._MEDAL_AREAS=areas;
+renderMedalTable(usersWithMedals,areas);
+const sel=document.getElementById('mMember');
+if(sel)sel.innerHTML=(res.users||[]).map(u=>`<option value="${u.id}">${u.username} (${u.cargo})</option>`).join('');
+});}
+
+function renderMedalTable(users,areas){
+const grid=document.getElementById('medalGrid');
+const cnt=document.getElementById('medalCount');
+if(cnt)cnt.textContent=users.length+' agente(s) condecorado(s)';
+if(!users.length){grid.innerHTML='<div class="empty"><div class="empty-icon">🏅</div><p>Nenhum agente possui medalhas ainda.</p></div>';return;}
+const areaAbbr={'Tiro':'TIR','Direção':'DIR','Tática':'TAT','Liderança':'LID','Controle de Perímetro':'CTL','Educação':'EDU'};
+let thead=`<tr><th style="width:44px">#</th><th>AGENTE</th><th>CARGO</th>`;
+areas.forEach(a=>thead+=`<th style="text-align:center">${areaAbbr[a]||a.substring(0,3).toUpperCase()}</th>`);
+thead+=`<th style="text-align:center">TOTAL</th><th style="text-align:center">💎</th></tr>`;
+let tbody=users.map((u,i)=>{
+  const counts=countMedalTotals(u.medalSummary);
+  const rankIco=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}`;
+  const areaCells=areas.map(area=>{
+    const s=u.medalSummary[area]||{};
+    if(s.diamante)return `<td><div class="area-pips"><span class="med-pip mp-d" title="💎 Diamante em ${area}">💎</span></div></td>`;
+    const pips=[];
+    for(let j=0;j<(s.ouro||0);j++)pips.push(`<span class="med-pip mp-g" title="${area}: Ouro">O</span>`);
+    for(let j=0;j<(s.prata||0);j++)pips.push(`<span class="med-pip mp-s" title="${area}: Prata">P</span>`);
+    for(let j=0;j<(s.bronze||0);j++)pips.push(`<span class="med-pip mp-b" title="${area}: Bronze">B</span>`);
+    return `<td><div class="area-pips">${pips.join('')||'<span style="color:var(--text3)">—</span>'}</div></td>`;
+  }).join('');
+  return `<tr style="cursor:pointer" onclick="openProfile('${u.id}')">
+    <td class="rank-cell">${rankIco}</td>
+    <td class="name-cell">${u.username}</td>
+    <td><span class="badge ${badgeCls(u.cargo)}">${u.cargo.toUpperCase()}</span></td>
+    ${areaCells}
+    <td style="text-align:center;font-family:'Oswald',sans-serif;color:var(--gold2)">${u.total}</td>
+    <td style="text-align:center">${counts.diamante?'💎'.repeat(counts.diamante):''}</td>
+  </tr>`;
+}).join('');
+grid.innerHTML=`<table class="medal-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>`;}
+
+function filterMedals(q){
+  const users=window._ALL_MEDAL_USERS||[];const areas=window._MEDAL_AREAS||[];
+  if(!q)renderMedalTable(users,areas);
+  else renderMedalTable(users.filter(u=>u.username.toLowerCase().includes(q.toLowerCase())),areas);}
+function loadMembers(){document.getElementById('memberGrid').innerHTML='<div class="empty"><div class="empty-icon" style="animation:spin 1s linear infinite">⚙️</div><p>Carregando...</p></div>';callApi('getMembers',S.token).then(res=>{if(!res.ok)return;MEMBERS=res.members;renderMembers(MEMBERS);});}
+function renderMembers(members){const grid=document.getElementById('memberGrid');if(!members||!members.length){grid.innerHTML='<div class="empty"><div class="empty-icon">👥</div><p>Nenhum membro cadastrado.</p></div>';return;}grid.innerHTML=members.map(m=>{const counts=countMedalTotals(m.medalSummary);const isMe=m.id===S.user.id;const status=m.status||'ativo';const siCls={ativo:'si-ativo',inativo:'si-inativo',suspenso:'si-suspenso',aposentado:'si-aposentado'}[status];return `<div class="member-card" onclick="openProfile('${m.id}')"><div class="mc-head"><div class="mc-info"><div class="mc-name">${isMe?'⭐ ':''}${m.username}</div><div class="mc-reg">${m.registro}</div></div><span class="badge ${badgeCls(m.cargo)}">${m.cargo.toUpperCase()}</span></div><div style="display:flex;align-items:center;gap:7px;margin-bottom:4px"><span class="status-indicator ${siCls}"></span><span style="font-size:11px;color:var(--text2)">${status.charAt(0).toUpperCase()+status.slice(1)}</span></div><div class="mc-bottom">${counts.diamante?`<span class="mc-cnt" style="background:rgba(126,200,227,.15);border-color:var(--diamond);color:var(--diamond)">💎 ${counts.diamante}</span>`:''}${counts.ouro?`<span class="mc-cnt" style="background:rgba(201,162,39,.15);border-color:var(--gold);color:var(--gold2)">🥇 ${counts.ouro}</span>`:''}${counts.prata?`<span class="mc-cnt" style="background:rgba(159,170,181,.15);border-color:var(--silver);color:var(--silver)">🥈 ${counts.prata}</span>`:''}${counts.bronze?`<span class="mc-cnt" style="background:rgba(205,127,50,.15);border-color:var(--bronze);color:var(--bronze)">🥉 ${counts.bronze}</span>`:''}${!m.totalMedals?'<span style="font-size:11px;color:var(--text2)">Sem medalhas</span>':''}</div></div>`;}).join('');}
+function filterMembers(q){renderMembers(q?MEMBERS.filter(m=>m.username.toLowerCase().includes(q.toLowerCase())):MEMBERS);}
+function countMedalTotals(summary){let d=0,o=0,s=0,b=0;if(!summary)return{diamante:0,ouro:0,prata:0,bronze:0};Object.values(summary).forEach(a=>{if(a.diamante)d++;o+=a.ouro||0;s+=a.prata||0;b+=a.bronze||0;});return{diamante:d,ouro:o,prata:s,bronze:b};}
+function openProfile(userId){callApi('getMemberProfile',S.token,userId).then(res=>{if(!res.ok){toast(res.msg,'error');return;}renderProfileModal(res.user,res.medals,res.medalSummary,res.commanderSignature);});}
+function openMyProfile(){openProfile(S.user.id);}
+function renderProfileModal(user,medals,summary,sig){const lvl=CARGO_LEVEL[S.user.cargo]||0;const isAdmin=S.user.cargo==='Comandante';const canPromote=lvl>=4&&user.id!==S.user.id;const status=user.status||'ativo';const durOpts=['1','2','3','4','5','6','7','8','9','10','indeterminado'].map(v=>`<option value="${v}">${v==='indeterminado'?'Tempo Indeterminado':v+' dias'}</option>`).join('');const cargos=['Guarda','Agente','Tático','Escrivão','Delegado'];if(isAdmin)cargos.push('Comandante');const promOpts=cargos.map(c=>`<option value="${c}" ${c===user.cargo?'selected':''}>${c}</option>`).join('');let actions='';if(lvl>=4){actions+=`<div class="divider"></div><div class="section-title">ALTERAR STATUS</div><div class="row"><div class="col"><select class="inp" id="pStatusSel"><option value="ativo" ${status==='ativo'?'selected':''}>✅ Ativo</option><option value="inativo" ${status==='inativo'?'selected':''}>❌ Inativo</option><option value="suspenso" ${status==='suspenso'?'selected':''}>⚠️ Suspenso</option><option value="aposentado" ${status==='aposentado'?'selected':''}>🏖️ Aposentado</option></select></div><div class="col"><select class="inp" id="pDuracaoSel">${durOpts}</select></div><div class="col-auto"><button class="btn btn-ghost btn-sm" onclick="submitStatus('${user.id}')">SALVAR</button></div></div><div class="modal-msg" id="pStatusMsg"></div>`;}if(canPromote){actions+=`<div class="divider"></div><div class="section-title">PROMOVER / REBAIXAR</div><div class="row"><div class="col"><select class="inp" id="pPromSel">${promOpts}</select></div><div class="col-auto"><button class="btn btn-green btn-sm" onclick="submitPromote('${user.id}')">APLICAR</button></div></div><div class="modal-msg" id="pPromMsg"></div>`;}if(isAdmin&&user.id!==S.user.id){actions+=`<div class="divider"></div><div class="section-title">COMANDANTE</div><div class="row"><div class="col-auto"><button class="btn btn-ghost btn-sm" onclick="quickReset('${user.id}')">🔑 Redefinir Senha</button></div><div class="col-auto"><button class="btn btn-red btn-sm" onclick="quickDelete('${user.id}','${user.username}')">🗑️ Remover Membro</button></div></div>`;}if(user.id===S.user.id){actions+=`<div class="divider"></div><div class="section-title">MEU E-MAIL</div><div class="row"><div class="col"><input class="inp" type="email" id="userEmail_${user.id}" placeholder="seu@email.com" value="${user.email||''}"></div><div class="col-auto"><button class="btn btn-ghost btn-sm" onclick="saveUserEmail('${user.id}')">SALVAR</button></div></div><div class="divider"></div><div class="section-title">MINHA SENHA</div><div class="row"><div class="col"><input class="inp" type="password" id="myNewPass" placeholder="Nova senha"></div><div class="col-auto"><button class="btn btn-ghost btn-sm" onclick="myResetPass('${user.id}')">ALTERAR</button></div></div><div class="modal-msg" id="myPassMsg"></div>`;}document.getElementById('profileContent').innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h2 style="margin:0">🪪 FUNCIONAL</h2><button onclick="closeModal('profileOverlay')" style="background:none;border:none;color:var(--text2);font-size:24px;cursor:pointer;line-height:1">&times;</button></div>${buildFuncionalHTML(user,medals,summary,sig)}${actions}`;document.getElementById('profileOverlay').style.display='flex';}
+function submitStatus(userId){const status=document.getElementById('pStatusSel').value;const duracao=document.getElementById('pDuracaoSel').value;callApi('updateUserStatus',S.token,userId,status,duracao).then(res=>{const el=document.getElementById('pStatusMsg');if(el){el.textContent=res.msg;el.className='modal-msg '+(res.ok?'success':'error');}if(res.ok){loadMembers();S.user.id===userId&&loadMyFuncional();}});}
+function submitPromote(userId){const cargo=document.getElementById('pPromSel').value;callApi('promoteUser',S.token,userId,cargo).then(res=>{const el=document.getElementById('pPromMsg');if(el){el.textContent=res.msg;el.className='modal-msg '+(res.ok?'success':'error');}if(res.ok){loadMembers();closeModal('profileOverlay');}});}
+function quickReset(userId){const np=prompt('Nova senha para este membro:');if(!np)return;callApi('resetPassword',S.token,userId,np).then(res=>{toast(res.msg,res.ok?'success':'error');if(res.ok)closeModal('profileOverlay');});}
+function myResetPass(userId){const np=document.getElementById('myNewPass').value;callApi('resetPassword',S.token,userId,np).then(res=>{const el=document.getElementById('myPassMsg');if(el){el.textContent=res.msg;el.className='modal-msg '+(res.ok?'success':'error');}if(res.ok)document.getElementById('myNewPass').value='';});}
+function quickDelete(userId,username){if(!confirm(`Remover ${username} definitivamente?`))return;callApi('deleteUser',S.token,userId).then(res=>{toast(res.msg,res.ok?'success':'error');if(res.ok){closeModal('profileOverlay');loadMembers();}});}
+function openMedalModal(){const areas=Object.keys(S.areasData);document.getElementById('mArea').innerHTML=areas.map(a=>`<option>${a}</option>`).join('');populateMedalSubs();document.getElementById('mPts').value='';document.getElementById('ptsFeedback').textContent='';document.getElementById('medalMsg').textContent='';document.getElementById('mSubSelected').value='';document.getElementById('medalOverlay').style.display='flex';}
+function populateMedalSubs(){const area=document.getElementById('mArea').value;const subs=(S.areasData[area]||[]);document.getElementById('mSubGrid').innerHTML=subs.map((s,i)=>`<div class="sub-item" id="sub_${i}" onclick="selectSub('${s}',${i})"><div class="si-name">${s}</div><div class="si-medal">—</div></div>`).join('');document.getElementById('mSubSelected').value=subs[0]||'';if(subs.length)document.getElementById('sub_0')?.classList.add('selected');}
+function selectSub(name,idx){document.querySelectorAll('.sub-item').forEach(e=>e.classList.remove('selected'));document.getElementById('sub_'+idx)?.classList.add('selected');document.getElementById('mSubSelected').value=name;}
+function updatePtsFeedback(){const pts=Number(document.getElementById('mPts').value);const el=document.getElementById('ptsFeedback');if(isNaN(pts)||document.getElementById('mPts').value===''){el.textContent='';return;}if(pts>=86){el.textContent='🥇 OURO';el.style.color='var(--gold2)';}else if(pts>=76){el.textContent='🥈 PRATA';el.style.color='var(--silver)';}else if(pts>=65){el.textContent='🥉 BRONZE';el.style.color='var(--bronze)';}else{el.textContent='❌ Abaixo do mínimo (65 pts)';el.style.color='#e74c3c';}}
+function submitMedal(){const uid=document.getElementById('mMember').value;const area=document.getElementById('mArea').value;const sub=document.getElementById('mSubSelected').value;const pts=document.getElementById('mPts').value;const msg=document.getElementById('medalMsg');if(!sub){msg.textContent='Selecione uma sub-área.';msg.className='modal-msg error';return;}if(!pts){msg.textContent='Insira a pontuação.';msg.className='modal-msg error';return;}callApi('addMedal',S.token,uid,area,sub,pts).then(res=>{msg.textContent=res.msg;msg.className='modal-msg '+(res.ok?'success':'error');if(res.ok){if(res.diamante)toast(`💎 DIAMANTE conquistado em ${area}!`,'info');else toast(res.msg,'success');closeModal('medalOverlay');loadMedalTab();loadMembers();}});}
+function openCadastroModal(){document.getElementById('cadUser').value='';document.getElementById('cadPass').value='';document.getElementById('cadMsg').textContent='';document.getElementById('cadastroOverlay').style.display='flex';}
+function submitCadastro(){const u=document.getElementById('cadUser').value.trim();const p=document.getElementById('cadPass').value;callApi('createUser',S.token,u,p).then(res=>{const el=document.getElementById('cadMsg');el.textContent=res.msg+(res.registro?' | '+res.registro:'');el.className='modal-msg '+(res.ok?'success':'error');if(res.ok){toast(res.msg,'success');closeModal('cadastroOverlay');loadMembers();}});}
+function loadAvisos(){callApi('getAvisos',S.token).then(res=>{if(!res.ok)return;const list=document.getElementById('avisosList');if(!res.avisos.length){list.innerHTML='<div class="empty"><div class="empty-icon">📢</div><p>Nenhum aviso publicado ainda.</p></div>';return;}const me=S.user;list.innerHTML=res.avisos.map(a=>{const canEdit=me.id===a.autor_id||me.cargo==='Comandante';const canDel=me.cargo==='Comandante';
+const isHom=a.tipo==='homenagem';
+const borderStyle=isHom?'border-left:3px solid var(--gold2);background:linear-gradient(135deg,rgba(200,160,16,.06) 0%,var(--panel) 100%)':'';
+const titleHom=isHom?`<span style="color:var(--gold2);margin-right:8px">🏆</span>`:'';
+const homTag=isHom&&a.homenageado?`<span style="background:rgba(200,160,16,.15);border:1px solid var(--gold);color:var(--gold2);padding:2px 10px;border-radius:3px;font-size:10px;font-family:'Oswald',sans-serif;letter-spacing:1px">HOMENAGEADO: ${escHTML(a.homenageado)}</span>`:'';
+return `<div class="aviso-card" style="${borderStyle}"><div class="aviso-head"><div class="aviso-title">${titleHom}${escHTML(a.titulo)}</div><div style="display:flex;gap:6px;align-items:center">${homTag}${canEdit?`<button class="btn btn-ghost btn-xs" onclick="openEditAviso('${a.id}','${escAttr(a.titulo)}','${escAttr(a.conteudo)}')">✏️</button>`:''}${canDel?`<button class="btn btn-red btn-xs" onclick="delAviso('${a.id}')">🗑️</button>`:''}</div></div><div class="aviso-meta"><span>👮 ${a.autor_username}</span><span>📅 ${fmtDate(a.data_criacao)}</span>${a.data_edicao?`<span>✏️ Editado ${fmtDate(a.data_edicao)}</span>`:''}</div><div class="aviso-body">${escHTML(a.conteudo)}</div></div>`;}).join('');});}
+function openAvisoModal(id,titulo,conteudo){document.getElementById('avisoEditId').value=id||'';document.getElementById('avisoTitulo').value=titulo||'';document.getElementById('avisoConteudo').value=conteudo||'';document.getElementById('avisoModalTitle').textContent=id?'✏️ EDITAR AVISO':'📢 NOVO AVISO';document.getElementById('avisoMsg').textContent='';document.getElementById('avisoOverlay').style.display='flex';}
+function openEditAviso(id,titulo,conteudo){openAvisoModal(id,titulo,conteudo);}
+function submitAviso(){const id=document.getElementById('avisoEditId').value;const t=document.getElementById('avisoTitulo').value.trim();const cnt=document.getElementById('avisoConteudo').value.trim();if(id){callApi('editAviso',S.token,id,t,cnt).then(onAvisoRes);}else{callApi('createAviso',S.token,t,cnt,'aviso','').then(onAvisoRes);}}
+function onAvisoRes(res){const el=document.getElementById('avisoMsg');el.textContent=res.msg;el.className='modal-msg '+(res.ok?'success':'error');if(res.ok){toast(res.msg,'success');closeModal('avisoOverlay');loadAvisos();}}
+function delAviso(id){if(!confirm('Excluir este aviso?'))return;callApi('deleteAviso',S.token,id).then(res=>{toast(res.msg,res.ok?'success':'error');if(res.ok)loadAvisos();});}
+function loadBlacklist(){callApi('getListaNegra',S.token).then(res=>{if(!res.ok)return;const body=document.getElementById('blacklistBody');const canEdit=(CARGO_LEVEL[S.user.cargo]||0)>=4;if(!res.lista.length){body.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--text2)">✅ Lista negra vazia.</td></tr>`;return;}body.innerHTML=res.lista.map((item,i)=>`<tr><td>${i+1}</td><td><strong>${escHTML(item.nome)}</strong></td><td style="color:var(--text2)">${escHTML(item.motivo)}</td><td>${item.adicionado_por}</td><td>${fmtDate(item.data)}</td><td>${canEdit?`<button class="btn btn-red btn-xs" onclick="removeBlacklist('${item.id}','${escAttr(item.nome)}')">REMOVER</button>`:''}</td></tr>`).join('');});}
+function openBlacklistModal(){document.getElementById('blNome').value='';document.getElementById('blMotivo').value='';document.getElementById('blMsg').textContent='';document.getElementById('blOverlay').style.display='flex';}
+function submitBlacklist(){const nome=document.getElementById('blNome').value.trim();const mot=document.getElementById('blMotivo').value.trim();callApi('addToListaNegra',S.token,nome,mot).then(res=>{const el=document.getElementById('blMsg');el.textContent=res.msg;el.className='modal-msg '+(res.ok?'success':'error');if(res.ok){toast(res.msg,'success');closeModal('blOverlay');loadBlacklist();}});}
+function removeBlacklist(id,nome){if(!confirm(`Remover ${nome} da lista negra?`))return;callApi('removeFromListaNegra',S.token,id).then(res=>{toast(res.msg,res.ok?'success':'error');if(res.ok)loadBlacklist();});}
+let crimeTab='crimes';
+function switchCrimeTab(t){crimeTab=t;document.querySelectorAll('.sub-tab').forEach((el,i)=>el.classList.toggle('active',(i===0)===(t==='crimes')));document.getElementById('crimePanel').style.display=t==='crimes'?'block':'none';document.getElementById('prisaoPanel').style.display=t==='prisoes'?'block':'none';if(t==='crimes')loadCrimes();else loadPrisoes();}
+function loadCrimes(){callApi('getCrimes',S.token).then(res=>{if(!res.ok)return;ALL_CRIMES_CACHE=res.crimes;window._ALL_CRIMES_CACHE=res.crimes;const el=document.getElementById('crimesList');if(!res.crimes.length){el.innerHTML='<div class="empty"><div class="empty-icon">⭐</div><p>Nenhum crime cadastrado ainda.</p></div>';return;}const canEdit=['Delegado','Comandante'].includes(S.user.cargo);
+// Group by stars
+let html='';for(let star=1;star<=6;star++){const group=res.crimes.filter(c=>c.estrelas===star);if(!group.length)continue;html+=`<div style="margin-bottom:4px;margin-top:16px;font-size:10px;letter-spacing:2px;color:var(--text2);font-family:'Oswald',sans-serif;border-bottom:1px solid var(--border);padding-bottom:4px">${'★'.repeat(star)} NÍVEL ${star}</div>`;html+=group.map(c=>`<div class="crime-card"><div><div class="crime-name">${escHTML(c.nome)}</div>${c.descricao?`<div class="crime-desc">${escHTML(c.descricao)}</div>`:''}</div><div style="display:flex;align-items:center;gap:14px"><div class="stars">${Array.from({length:6},(_,i)=>`<span class="star${i<c.estrelas?' on':''}">★</span>`).join('')}</div>${canEdit?`<button class="btn btn-red btn-xs" onclick="deleteCrime('${c.id}')">🗑️</button>`:''}</div></div>`).join('');}
+el.innerHTML=html;});}
+function loadPrisoes(){callApi('getPrisoes',S.token).then(res=>{if(!res.ok)return;
+window._ALL_PRISOES=res.prisoes||[];renderPrisoesTable(res.prisoes||[]);});}
+
+function renderPrisoesTable(prisoes){
+const el=document.getElementById('prisoesList');
+const canDel=(CARGO_LEVEL[S.user.cargo]||0)>=4;
+if(!prisoes.length){el.innerHTML='<div class="empty"><div class="empty-icon">🔒</div><p>Nenhuma prisão registrada.</p></div>';return;}
+// Group by prisoner name
+const byPreso={};
+prisoes.forEach(p=>{const k=p.nome_preso.toLowerCase();if(!byPreso[k])byPreso[k]={nome:p.nome_preso,registros:[]};byPreso[k].registros.push(p);});
+const groups=Object.values(byPreso).sort((a,b)=>b.registros.length-a.registros.length);
+el.innerHTML=groups.map(g=>{
+  const vezes=g.registros.length;
+  const badge=vezes>=3?'<span style="background:rgba(180,30,20,.3);border:1px solid #a82018;color:#e06060;padding:2px 8px;border-radius:3px;font-size:10px;font-family:Oswald,sans-serif;letter-spacing:1px">REINCIDENTE</span>':'';
+  const rows=g.registros.map(p=>`<tr>
+    <td style="font-size:11px;color:var(--text2)">${fmtDate(p.data)}</td>
+    <td>${escHTML(p.crimes_nomes)}</td>
+    <td><div class="stars">${Array.from({length:Math.min(p.total_estrelas,6)},()=>'<span class="star on" style="font-size:12px">★</span>').join('')}${p.total_estrelas>6?`<span style="font-size:11px;color:var(--gold2)"> +${p.total_estrelas-6}</span>`:''}</div></td>
+    <td style="font-size:11px;color:var(--text2)">${p.registrado_por}</td>
+    <td>${canDel?`<button class="btn btn-red btn-xs" onclick="deletePrisao('${p.id}')">🗑️</button>`:''}</td>
+  </tr>`).join('');
+  return `<div class="prisao-card" style="margin-bottom:16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:18px">🔒</span>
+        <div><div class="prisao-nome">${escHTML(g.nome)}</div>
+        <div style="font-size:11px;color:var(--text2);margin-top:2px">Preso ${vezes}x</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">${badge}</div>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead><tr style="border-bottom:1px solid var(--border)">
+        <th style="padding:6px 8px;text-align:left;font-size:9px;letter-spacing:2px;color:var(--text2);font-family:'Oswald',sans-serif">DATA</th>
+        <th style="padding:6px 8px;text-align:left;font-size:9px;letter-spacing:2px;color:var(--text2);font-family:'Oswald',sans-serif">CRIMES</th>
+        <th style="padding:6px 8px;text-align:left;font-size:9px;letter-spacing:2px;color:var(--text2);font-family:'Oswald',sans-serif">ESTRELAS</th>
+        <th style="padding:6px 8px;text-align:left;font-size:9px;letter-spacing:2px;color:var(--text2);font-family:'Oswald',sans-serif">REGISTRADO POR</th>
+        <th></th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
+}).join('');}
+
+function filterCrimes(q){
+  const all=window._ALL_CRIMES_CACHE||[];
+  if(!q){loadCrimes();return;}
+  const filtered=all.filter(c=>c.nome.toLowerCase().includes(q.toLowerCase())||c.descricao.toLowerCase().includes(q.toLowerCase()));
+  const el=document.getElementById('crimesList');
+  const canEdit=['Delegado','Comandante'].includes(S.user.cargo);
+  if(!filtered.length){el.innerHTML='<div class="empty"><div class="empty-icon">🔍</div><p>Nenhum crime encontrado.</p></div>';return;}
+  let html='';for(let star=1;star<=6;star++){const group=filtered.filter(c=>c.estrelas===star);if(!group.length)continue;html+=`<div style="margin-bottom:4px;margin-top:16px;font-size:10px;letter-spacing:2px;color:var(--text2);font-family:'Oswald',sans-serif;border-bottom:1px solid var(--border);padding-bottom:4px">${'★'.repeat(star)} NÍVEL ${star}</div>`;html+=group.map(c=>`<div class="crime-card"><div><div class="crime-name">${escHTML(c.nome)}</div>${c.descricao?`<div class="crime-desc">${escHTML(c.descricao)}</div>`:''}</div><div style="display:flex;align-items:center;gap:14px"><div class="stars">${Array.from({length:6},(_,i)=>`<span class="star${i<c.estrelas?' on':''}">★</span>`).join('')}</div>${canEdit?`<button class="btn btn-red btn-xs" onclick="deleteCrime('${c.id}')">🗑️</button>`:''}</div></div>`).join('');}
+  el.innerHTML=html;}
+
+function filterPrisoes(q){const all=window._ALL_PRISOES||[];if(!q)renderPrisoesTable(all);
+else renderPrisoesTable(all.filter(p=>p.nome_preso.toLowerCase().includes(q.toLowerCase())));}
+let crimeStarVal=2;
+function setCrimeStars(v){crimeStarVal=v;document.getElementById('crimeStars').value=v;document.querySelectorAll('#crimeStarsInput .star').forEach((s,i)=>s.classList.toggle('on',i<v));}
+function openCrimeModal(){document.getElementById('crimeNome').value='';document.getElementById('crimeDesc').value='';document.getElementById('crimeMsg').textContent='';setCrimeStars(2);document.getElementById('crimeOverlay').style.display='flex';}
+function submitCrime(){const nome=document.getElementById('crimeNome').value.trim();const est=document.getElementById('crimeStars').value;const desc=document.getElementById('crimeDesc').value.trim();callApi('addCrime',S.token,nome,est,desc).then(res=>{const el=document.getElementById('crimeMsg');el.textContent=res.msg;el.className='modal-msg '+(res.ok?'success':'error');if(res.ok){toast(res.msg,'success');closeModal('crimeOverlay');loadCrimes();}});}
+function deleteCrime(id){if(!confirm('Remover este crime?'))return;callApi('deleteCrime',S.token,id).then(res=>{toast(res.msg,res.ok?'success':'error');if(res.ok)loadCrimes();});}
+function openPrisaoModal(){document.getElementById('preso').value='';document.getElementById('prisaoMsg').textContent='';document.getElementById('totalEst').textContent='0 ⭐';const list=document.getElementById('crimeCheckList');list.innerHTML=ALL_CRIMES_CACHE.map(c=>`<label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" value="${c.id}" data-stars="${c.estrelas}" onchange="recalcStars()"><span style="flex:1">${escHTML(c.nome)}</span><div class="stars">${Array.from({length:6},(_,i)=>`<span class="star${i<c.estrelas?' on':''}" style="font-size:11px">★</span>`).join('')}</div></label>`).join('');document.getElementById('prisaoOverlay').style.display='flex';}
+function recalcStars(){const checks=document.querySelectorAll('#crimeCheckList input:checked');const total=Array.from(checks).reduce((s,c)=>s+Number(c.dataset.stars||0),0);const el=document.getElementById('totalEst');el.textContent=total+' ⭐';el.style.color=total>6?'#e74c3c':total===6?'var(--gold2)':'';if(total>6){el.textContent=total+'⭐ — LIMITE EXCEDIDO! Máx. 6';}}
+function submitPrisao(){const nome=document.getElementById('preso').value.trim();const ids=Array.from(document.querySelectorAll('#crimeCheckList input:checked')).map(c=>c.value);callApi('addPrisao',S.token,nome,ids).then(res=>{const el=document.getElementById('prisaoMsg');el.textContent=res.msg;el.className='modal-msg '+(res.ok?'success':'error');if(res.ok){toast(res.msg,'success');closeModal('prisaoOverlay');loadPrisoes();}});}
+function deletePrisao(id){if(!confirm('Remover este registro?'))return;callApi('deletePrisao',S.token,id).then(res=>{toast(res.msg,res.ok?'success':'error');if(res.ok)loadPrisoes();});}
+function loadEquipes(){callApi('getEquipes',S.token).then(res=>{if(!res.ok)return;const el=document.getElementById('equipesList');if(!res.equipes.length){el.innerHTML='<div class="empty"><div class="empty-icon">🏛️</div><p>Nenhuma equipe criada ainda.</p></div>';return;}const canEdit=['Delegado','Comandante'].includes(S.user.cargo);el.innerHTML=res.equipes.map(e=>`<div class="equipe-card"><div class="eq-head"><div class="eq-name">${escHTML(e.nome)}</div><div style="display:flex;gap:8px">${canEdit?`<button class="btn btn-ghost btn-xs" onclick="openAddMemberModal('${e.id}')">+ MEMBRO</button>`:''}${canEdit?`<button class="btn btn-red btn-xs" onclick="delEquipe('${e.id}')">🗑️</button>`:''}</div></div><div class="eq-info"><div class="eq-field"><label>Delegado Responsável</label><div class="val">🟢 ${e.delegado_nome}</div></div><div class="eq-field"><label>Líder</label><div class="val">👑 ${e.lider_nome}</div></div>${e.qth?`<div class="eq-field"><label>QTH</label><div class="val">📍 ${escHTML(e.qth)}</div></div>`:''}${e.acao?`<div class="eq-field"><label>Operação</label><div class="val">🎯 ${escHTML(e.acao)}</div></div>`:''}</div>${e.membros&&e.membros.length?`<div><div class="section-title" style="margin-top:12px;margin-bottom:8px">MEMBROS (${e.membros.length})</div><div class="eq-members">${e.membros.map(m=>`<div class="eq-member-chip"><span class="badge ${badgeCls(m.cargo)}" style="font-size:9px">${m.cargo[0].toUpperCase()}</span>${escHTML(m.nome)}${canEdit?`<button onclick="removeMemberEquipe('${e.id}','${m.id}')" style="background:none;border:none;color:var(--text2);cursor:pointer;padding:0;font-size:12px">×</button>`:''}</div>`).join('')}</div></div>`:''}</div>`).join('');});}
+function openEquipeModal(){const delegados=MEMBERS.filter(m=>m.cargo==='Delegado'||m.cargo==='Comandante');const lideres=MEMBERS.filter(m=>['Tático','Escrivão','Delegado','Comandante'].includes(m.cargo));document.getElementById('eqDelegado').innerHTML=delegados.map(m=>`<option value="${m.id}">${m.username}</option>`).join('');document.getElementById('eqLider').innerHTML=lideres.map(m=>`<option value="${m.id}">${m.username} (${m.cargo})</option>`).join('');document.getElementById('eqNome').value='';document.getElementById('eqQth').value='';document.getElementById('eqAcao').value='';document.getElementById('equipeMsg').textContent='';document.getElementById('equipeOverlay').style.display='flex';}
+function submitEquipe(){const nome=document.getElementById('eqNome').value.trim();const did=document.getElementById('eqDelegado').value;const lid=document.getElementById('eqLider').value;const qth=document.getElementById('eqQth').value.trim();const acao=document.getElementById('eqAcao').value.trim();callApi('createEquipe',S.token,nome,did,lid,qth,acao).then(res=>{const el=document.getElementById('equipeMsg');el.textContent=res.msg;el.className='modal-msg '+(res.ok?'success':'error');if(res.ok){toast(res.msg,'success');closeModal('equipeOverlay');loadEquipes();}});}
+function openAddMemberModal(equipeId){document.getElementById('eqMemberEquipeId').value=equipeId;
+document.getElementById('eqMemberCheckList').innerHTML=MEMBERS.map(m=>`<label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 4px;border-bottom:1px solid var(--border)"><input type="checkbox" value="${m.id}"><span style="flex:1;font-family:'Oswald',sans-serif;font-size:13px">${m.username}</span><span class="badge ${badgeCls(m.cargo)}">${m.cargo.toUpperCase()}</span></label>`).join('');
+document.getElementById('eqMemberMsg').textContent='';document.getElementById('eqMemberOverlay').style.display='flex';}
+function submitAddMember(){const eid=document.getElementById('eqMemberEquipeId').value;const mids=Array.from(document.querySelectorAll('#eqMemberCheckList input:checked')).map(c=>c.value);if(!mids.length){const el=document.getElementById('eqMemberMsg');el.textContent='Selecione ao menos 1 membro.';el.className='modal-msg error';return;}callApi('addMemberToEquipe',S.token,eid,mids).then(res=>{const el=document.getElementById('eqMemberMsg');el.textContent=res.msg;el.className='modal-msg '+(res.ok?'success':'error');if(res.ok){toast(res.msg,'success');closeModal('eqMemberOverlay');loadEquipes();}});}
+function removeMemberEquipe(equipeId,memberId){callApi('removeMemberFromEquipe',S.token,equipeId,memberId).then(res=>{toast(res.msg,res.ok?'success':'error');if(res.ok)loadEquipes();});}
+function delEquipe(id){if(!confirm('Excluir esta equipe?'))return;callApi('deleteEquipe',S.token,id).then(res=>{toast(res.msg,res.ok?'success':'error');if(res.ok)loadEquipes();});}
+function openDescEdit(cargo){const cur=document.getElementById('desc-'+cargo)?.textContent||'';document.getElementById('descCargo').value=cargo;document.getElementById('descText').value=cur;document.getElementById('descModalTitle').textContent=`✏️ EDITAR: ${cargo.toUpperCase()}`;document.getElementById('descMsg').textContent='';document.getElementById('descOverlay').style.display='flex';}
+function submitDescEdit(){const cargo=document.getElementById('descCargo').value;const desc=document.getElementById('descText').value;callApi('updateCargoDesc',S.token,cargo,desc).then(res=>{const el=document.getElementById('descMsg');el.textContent=res.msg;el.className='modal-msg '+(res.ok?'success':'error');if(res.ok){toast(res.msg,'success');closeModal('descOverlay');buildCargoTab();}});}
+function togglePwd(inputId,btn){const inp=document.getElementById(inputId);if(!inp)return;if(inp.type==='password'){inp.type='text';btn.textContent='🙈';}else{inp.type='password';btn.textContent='👁';}}
+
+// ── FAZER PROVA ──
+function openProvaModal(){
+  const areas=Object.keys(S.areasData);
+  document.getElementById('provaArea').innerHTML=areas.map(a=>`<option>${a}</option>`).join('');
+  populateProvaSubs();
+  document.getElementById('provaMsg').textContent='';
+  document.getElementById('provaNotasSection').style.display='none';
+  document.getElementById('btnAplicarProva').style.display='none';
+  document.querySelector('#provaOverlay .btn-gold').style.display='';
+  // populate checkboxes
+  document.getElementById('provaMemberCheckList').innerHTML=MEMBERS.map(m=>
+    `<label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 4px;border-bottom:1px solid var(--border)">
+      <input type="checkbox" class="prova-chk" value="${m.id}" data-name="${m.username}" data-cargo="${m.cargo}">
+      <span style="flex:1;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1px">${m.username}</span>
+      <span class="badge ${badgeCls(m.cargo)}">${m.cargo.toUpperCase()}</span>
+    </label>`
+  ).join('');
+  document.getElementById('provaOverlay').style.display='flex';
+}
+function provaSelectAll(){document.querySelectorAll('.prova-chk').forEach(c=>c.checked=true);}
+function provaSelectNone(){document.querySelectorAll('.prova-chk').forEach(c=>c.checked=false);}
+function populateProvaSubs(){
+  const area=document.getElementById('provaArea').value;
+  const subs=(S.areasData[area]||[]);
+  document.getElementById('provaSub').innerHTML=subs.map(s=>`<option>${s}</option>`).join('');
+}
+function confirmarProvaNotas(){
+  const checked=Array.from(document.querySelectorAll('.prova-chk:checked'));
+  if(!checked.length){
+    const el=document.getElementById('provaMsg');el.textContent='Selecione ao menos 1 membro.';el.className='modal-msg error';return;
+  }
+  document.getElementById('provaMsg').textContent='';
+  document.getElementById('provaNotasSection').style.display='block';
+  document.getElementById('btnAplicarProva').style.display='';
+  document.querySelector('#provaOverlay .modal-footer .btn-gold:first-of-type').style.display='none';
+  document.getElementById('provaNotasList').innerHTML=checked.map(chk=>
+    `<div style="display:flex;align-items:center;gap:10px;padding:8px 4px;border-bottom:1px solid var(--border)">
+      <span style="flex:1;font-family:'Oswald',sans-serif;font-size:13px">${chk.dataset.name}</span>
+      <input class="inp prova-nota" type="number" min="0" max="100" placeholder="0–100" data-uid="${chk.value}"
+        style="width:100px;padding:6px 10px" oninput="updateProvaNotaLabel(this)">
+      <span class="prova-nota-label" style="font-size:11px;font-weight:700;min-width:60px;text-align:right"></span>
+    </div>`
+  ).join('');
+}
+function updateProvaNotaLabel(inp){
+  const pts=Number(inp.value);const el=inp.nextElementSibling;
+  if(inp.value===''){el.textContent='';return;}
+  if(pts>=86){el.textContent='🥇 OURO';el.style.color='var(--gold2)';}
+  else if(pts>=76){el.textContent='🥈 PRATA';el.style.color='var(--silver)';}
+  else if(pts>=65){el.textContent='🥉 BRONZE';el.style.color='var(--bronze)';}
+  else{el.textContent='❌ Reprov.';el.style.color='#e74c3c';}
+}
+function submitProva(){
+  const area=document.getElementById('provaArea').value;
+  const sub=document.getElementById('provaSub').value;
+  const msg=document.getElementById('provaMsg');
+  const notas=Array.from(document.querySelectorAll('.prova-nota')).map(inp=>({userId:inp.dataset.uid,pontos:inp.value}));
+  if(!notas.length){msg.textContent='Nenhum membro com nota.';msg.className='modal-msg error';return;}
+  document.getElementById('btnAplicarProva').disabled=true;
+  callApi('applyProva',S.token,area,sub,notas).then(res=>{
+    document.getElementById('btnAplicarProva').disabled=false;
+    msg.textContent=res.msg;msg.className='modal-msg '+(res.ok?'success':'error');
+    if(res.ok){
+      const diam=(res.results||[]).filter(r=>r.diamante);
+      diam.forEach(r=>toast(`💎 ${r.nome} conquistou DIAMANTE em ${area}!`,'info'));
+      toast(res.msg,'success');
+      closeModal('provaOverlay');loadMedalTab();loadMembers();
+    }
+  });
+}
+
+function closeModal(id){document.getElementById(id).style.display='none';}
+function badgeCls(cargo){const m={Guarda:'badge-guarda',Agente:'badge-agente','Tático':'badge-tatico','Escrivão':'badge-escrivao',Delegado:'badge-delegado',Comandante:'badge-comandante'};return m[cargo]||'';}
+function fmtDate(d){if(!d)return'—';try{return new Date(d).toLocaleDateString('pt-BR');}catch(e){return String(d);}}
+function escHTML(str){return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function escAttr(str){return String(str||'').replace(/'/g,"\\'").replace(/\n/g,' ');}
+function toast(msg,type='info'){const t=document.createElement('div');t.className=`toast ${type}`;t.textContent=msg;document.body.appendChild(t);setTimeout(()=>{t.style.transition='opacity .4s';t.style.opacity='0';},2800);setTimeout(()=>t.remove(),3200);}
+</script>
+
+<!-- PROVA MODAL -->
+<div class="modal-overlay" id="provaOverlay" style="display:none" onclick="if(event.target===this)closeModal('provaOverlay')">
+  <div class="modal modal-lg">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h2 style="margin:0">📝 APLICAR PROVA</h2>
+      <button onclick="closeModal('provaOverlay')" style="background:none;border:none;color:var(--text2);font-size:24px;cursor:pointer;line-height:1">&times;</button>
+    </div>
+    <div class="row" style="margin-bottom:16px">
+      <div class="col">
+        <div class="form-group" style="margin-bottom:0"><label>Área</label><select class="inp" id="provaArea" onchange="populateProvaSubs()"></select></div>
+      </div>
+      <div class="col">
+        <div class="form-group" style="margin-bottom:0"><label>Sub-área</label><select class="inp" id="provaSub"></select></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Selecionar Membros</label>
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <button class="btn btn-ghost btn-xs" onclick="provaSelectAll()">✔ TODOS</button>
+        <button class="btn btn-ghost btn-xs" onclick="provaSelectNone()">✖ NENHUM</button>
+      </div>
+      <div id="provaMemberCheckList" style="max-height:200px;overflow-y:auto;background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:10px;display:flex;flex-direction:column;gap:6px;"></div>
+    </div>
+    <div id="provaNotasSection" style="display:none">
+      <div class="section-title" style="margin-top:4px">NOTAS DOS MEMBROS SELECIONADOS</div>
+      <div id="provaNotasList" style="border:1px solid var(--border);border-radius:4px;background:var(--bg3);padding:10px;max-height:220px;overflow-y:auto;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('provaOverlay')">CANCELAR</button>
+      <button class="btn btn-gold btn-sm" onclick="confirmarProvaNotas()">INSERIR NOTAS →</button>
+      <button class="btn btn-gold btn-sm" id="btnAplicarProva" onclick="submitProva()" style="display:none">🎯 APLICAR PROVA</button>
+    </div>
+    <div class="modal-msg" id="provaMsg"></div>
+  </div>
+</div>
+<!-- HOMENAGEM MODAL -->
+<div class="modal-overlay" id="homOverlay" style="display:none" onclick="if(event.target===this)closeModal('homOverlay')">
+  <div class="modal">
+    <h2>🏆 HOMENAGEAR MEMBRO</h2>
+    <div class="form-group"><label>Membro Homenageado</label><select class="inp" id="homMembro"></select></div>
+    <div class="form-group"><label>Título (opcional)</label><input class="inp" type="text" id="homTitulo" placeholder="Ex: Agente do Mês"></div>
+    <div class="form-group"><label>Mensagem de Homenagem</label><textarea class="inp" id="homConteudo" rows="4" placeholder="Descreva os feitos deste agente..."></textarea></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('homOverlay')">CANCELAR</button>
+      <button class="btn btn-gold btn-sm" onclick="submitHomenagem()">🏆 PUBLICAR HOMENAGEM</button>
+    </div>
+    <div class="modal-msg" id="homMsg"></div>
+  </div>
+</div>
+
+<!-- REGRA MODAL -->
+<div class="modal-overlay" id="regraOverlay" style="display:none" onclick="if(event.target===this)closeModal('regraOverlay')">
+  <div class="modal">
+    <h2 id="regraModalTitle">📜 NOVA REGRA</h2>
+    <input type="hidden" id="regraEditId">
+    <div class="form-group"><label>Título da Regra</label><input class="inp" type="text" id="regraTitulo" placeholder="Ex: Art. 1 — Conduta"></div>
+    <div class="form-group"><label>Conteúdo</label><textarea class="inp" id="regraConteudo" rows="6" placeholder="Descreva a regra em detalhes..."></textarea></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('regraOverlay')">CANCELAR</button>
+      <button class="btn btn-gold btn-sm" onclick="submitRegra()">SALVAR</button>
+    </div>
+    <div class="modal-msg" id="regraMsg"></div>
+  </div>
+</div>
+</body>
+</html>
